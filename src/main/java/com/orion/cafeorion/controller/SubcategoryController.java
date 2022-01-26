@@ -2,6 +2,7 @@ package com.orion.cafeorion.controller;
 
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryCreateDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryDto;
+import com.orion.cafeorion.domain.dto.subcategory.SubcategoryFullDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
@@ -40,8 +41,8 @@ public class SubcategoryController {
     }
 
     @GetMapping("/{subcategory-id}")
-    public SubcategoryDto getSubcategoryById(@PathVariable("subcategory-id") int subcategory_id) {
-        return subcategoryMapper.toDto(subcategoryService.findSubcategoryById(subcategory_id));
+    public SubcategoryFullDto getSubcategoryById(@PathVariable("subcategory-id") int subcategory_id) {
+        return subcategoryMapper.toFullDto(subcategoryService.findSubcategoryById(subcategory_id));
     }
 
     @PostMapping()

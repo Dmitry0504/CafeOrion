@@ -23,6 +23,6 @@ public interface SubcategoryService {
 
     List<Subcategory> findSubcategoryByCategory_Id(int category_id);
 
-    Subcategory update(int targetId, Category category, Subcategory subcategory);
+    Subcategory update(int targetId, Category category, Subcategory source);
 
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Dmitriy
@@ -28,6 +30,20 @@ public class Subcategory {
             CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "categories_id")
     private Category category;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH}
+            , mappedBy = "subcategory", fetch = FetchType.EAGER)
+    private List<Dish> dishList;
+
+
+    public void addNewDishToList(Dish dish) {
+        if (dishList == null) {
+            dishList = new ArrayList<>();
+        }
+        dishList.add(dish);
+        dish.setSubcategory(this);
+    }
 
     @Override
     public String toString() {

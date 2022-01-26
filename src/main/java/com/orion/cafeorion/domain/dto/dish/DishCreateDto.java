@@ -1,18 +1,19 @@
-package com.orion.cafeorion.domain.dto.subcategory;
+package com.orion.cafeorion.domain.dto.dish;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
+import java.math.BigDecimal;
+
 /**
  * @author Dmitriy
- * @since 25.01.2022
+ * @since 26.01.2022
  */
 @Value
 @Builder
-@Getter
 @Jacksonized
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SubcategoryUpdateDto {
+public class DishCreateDto {
     String title;
-    int categoryId;
+    Integer price;
 }

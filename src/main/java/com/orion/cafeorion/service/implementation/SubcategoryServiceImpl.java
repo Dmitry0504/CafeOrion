@@ -4,6 +4,7 @@ import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.repository.SubcategoryRepository;
 import com.orion.cafeorion.service.SubcategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,10 @@ import java.util.List;
  */
 
 @Service
+@AllArgsConstructor
 public class SubcategoryServiceImpl implements SubcategoryService {
 
-    @Autowired
-    private SubcategoryRepository subcategoryRepository;
+    private final SubcategoryRepository subcategoryRepository;
 
     @Override
     public List<Subcategory> findAllSubcategories() {
@@ -46,11 +47,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public Subcategory update(int targetId, Category category, Subcategory subcategory) {
-        Subcategory subcategoryToUpdate = this.findSubcategoryById(targetId);
-        subcategoryToUpdate.setTitle(subcategory.getTitle());
-        subcategoryToUpdate.setCategory(category);
-        this.saveSubcategory(subcategoryToUpdate);
-        return subcategoryToUpdate;
+    public Subcategory update(int targetId, Category category, Subcategory source) {
+        Subcategory target = findSubcategoryById(targetId);
+        target.setTitle(source.getTitle());
+        target.setCategory(category);
+        this.saveSubcategory(target);
+        return target;
     }
 }

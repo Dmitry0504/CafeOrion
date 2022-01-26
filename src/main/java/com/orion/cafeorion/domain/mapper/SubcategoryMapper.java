@@ -5,6 +5,7 @@ import com.orion.cafeorion.domain.dto.category.CategoryDto;
 import com.orion.cafeorion.domain.dto.category.CategoryUpdateDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryCreateDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryDto;
+import com.orion.cafeorion.domain.dto.subcategory.SubcategoryFullDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
@@ -15,22 +16,23 @@ import org.mapstruct.*;
  * @author Dmitriy
  * @since 25.01.2022
  */
-@Mapper(uses = {CategoryMapper.class})
+@Mapper(uses = {CategoryMapper.class, DishMapper.class})
 public interface SubcategoryMapper {
 
     SubcategoryDto toDto(Subcategory source);
 
+    @Mapping(source = "dishList", target = "dishDtoList")
+    SubcategoryFullDto toFullDto(Subcategory source);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "category", ignore = true)
+    @Mapping(target = "dishList", ignore = true)
     Subcategory fromCreateDto(SubcategoryCreateDto source);
 
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "dishList", ignore = true)
     @Mapping(source = "categoryId", target = "category")
     Subcategory fromUpdateDto(SubcategoryUpdateDto source);
-//
-//    void updateModel(SubcategoryDto subcategoryDto, @MappingTarget Subcategory subcategory);
-//
-//    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    Subcategory merge(@MappingTarget Subcategory target, Subcategory source);
+
 }
