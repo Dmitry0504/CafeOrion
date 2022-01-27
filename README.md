@@ -1,17 +1,17 @@
-# Cafe Orion
+# **Cafe Orion**
 
 Cafe automation system is designed to make things easier.
 To get started, you need to create a database. I used MySQL.
-
-# Commands for creating database tables. 
-
-CREATE DATABASE `cafe`;
-USE cafe;
-CREATE TABLE `categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-);
+<br />
+## Commands for creating database tables. 
+<br />
+CREATE DATABASE `cafe`; <br />
+USE cafe; <br />
+CREATE TABLE `categories` ( <br />
+  `id` int NOT NULL AUTO_INCREMENT, <br />
+  `title` varchar(45) NOT NULL, <br />
+  PRIMARY KEY (`id`) <br />
+); <br />
 
 CREATE TABLE `subcategories` (
   `id` int NOT NULL AUTO_INCREMENT,
