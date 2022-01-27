@@ -20,12 +20,12 @@ import java.util.List;
 @Builder
 @Jacksonized
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Schema(name = "Category Dto", description = "Full category info")
+@Schema(name = "Category Dto", description = "Full category info for presentation")
 public class CategoryDto {
     @Schema(description = "Category id", example = "1")
     int id;
     @Schema(description = "Category title", example = "Food")
     String title;
-    @Schema(description = "Subcategory list from category")
+    @Schema(description = "Subcategory list from category", example = "{}")
     List<SubcategoryDto> subcategoryList;
 }
