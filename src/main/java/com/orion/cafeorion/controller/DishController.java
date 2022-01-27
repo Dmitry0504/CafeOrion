@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,7 @@ public class DishController {
     @ApiResponse(responseCode = "200", description = "Dish was created")
     @PostMapping()
     public DishDto createNewDish(@PathVariable("subcategory-id") int subcategory_id
-        , @RequestBody DishCreateDto dishCreateDto) {
+        , @Valid @RequestBody DishCreateDto dishCreateDto) {
         Subcategory subcategory = subcategoryService.findSubcategoryById(subcategory_id);
         Dish dish = dishMapper.fromCreateDto(dishCreateDto);
         subcategory.addNewDishToList(dish);
@@ -95,7 +96,7 @@ public class DishController {
     @ApiResponse(responseCode = "200", description = "Subcategory was updated")
     @PatchMapping("/{dish-id}")
     public DishDto updateDish(@PathVariable("dish-id") int dish_id
-            , @RequestBody DishUpdateDto dishUpdateDto) {
+            , @Valid @RequestBody DishUpdateDto dishUpdateDto) {
         Subcategory subcategory = subcategoryService.findSubcategoryById(dishUpdateDto.getSubcategoryId());
         Dish updateSource = dishMapper.fromUpdateDto(dishUpdateDto);
         Dish result = dishService.update(dish_id, subcategory, updateSource);

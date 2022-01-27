@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,7 +80,7 @@ public class SubcategoryController {
     @ApiResponse(responseCode = "200", description = "Subcategory was created")
     @PostMapping()
     public SubcategoryDto crateNewSubcategory(@PathVariable int id
-            , @RequestBody SubcategoryCreateDto subcategoryCreateDto) {
+            , @Valid @RequestBody SubcategoryCreateDto subcategoryCreateDto) {
         Category category = categoryService.findCategoryById(id);
         Subcategory subcategory = subcategoryMapper.fromCreateDto(subcategoryCreateDto);
         category.addNewSubcategoryToList(subcategory);
@@ -98,7 +99,7 @@ public class SubcategoryController {
     @ApiResponse(responseCode = "200", description = "Subcategory was updated")
     @PatchMapping("/{subcategory-id}")
     public SubcategoryDto updateSubcategory(@PathVariable("subcategory-id") int subcategory_id
-            , @RequestBody SubcategoryUpdateDto subcategoryUpdateDto) {
+            , @Valid @RequestBody SubcategoryUpdateDto subcategoryUpdateDto) {
 
         Subcategory subcategoryUpdate = subcategoryMapper.fromUpdateDto(subcategoryUpdateDto);
         int categoryId = subcategoryUpdateDto.getCategoryId();

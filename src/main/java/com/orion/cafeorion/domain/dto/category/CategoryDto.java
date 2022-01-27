@@ -26,6 +26,6 @@ public class CategoryDto {
     int id;
     @Schema(description = "Category title", example = "Food")
     String title;
-    @Schema(description = "Subcategory list from category", example = "{}")
+    @Schema(description = "Subcategory list from category")
     List<SubcategoryDto> subcategoryList;
 }

@@ -20,8 +20,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(name = "Category CreateDto", description = "Use for create category")
 public class CategoryCreateDto {
-    @NotBlank(message = "{title.empty}")
-    @Size(min = 2, max = 45, message = "{title.size}")
+    @NotBlank(message = "Title cannot be empty!")
+    @Size(min = 2, max = 45, message = "Title must be between 2 and 45 characters")
     @Schema(description = "Category title", example = "Food")
     String title;
 }
