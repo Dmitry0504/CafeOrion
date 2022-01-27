@@ -1,7 +1,7 @@
 # Cafe Orion
 
 Cafe automation system is designed to make things easier.
-To get started, you need to create a database. I used MySql
+To get started, you need to create a database. I used MySQL.
 
 # Commands for creating database tables. 
 
