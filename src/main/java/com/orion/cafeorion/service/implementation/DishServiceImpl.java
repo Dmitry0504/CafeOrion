@@ -21,7 +21,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<Dish> findDishesBySubcategory_Id(int subcategoryId) {
-        return dishRepository.findAll();
+        return dishRepository.findDishesBySubcategory_Id(subcategoryId);
     }
 
     @Override
@@ -45,6 +45,7 @@ public class DishServiceImpl implements DishService {
         target.setTitle(source.getTitle());
         target.setPrice(source.getPrice());
         target.setSubcategory(subcategory);
+        saveDish(target);
         return target;
     }
 }

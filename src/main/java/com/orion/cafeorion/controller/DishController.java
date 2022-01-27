@@ -2,6 +2,7 @@ package com.orion.cafeorion.controller;
 
 import com.orion.cafeorion.domain.dto.dish.DishCreateDto;
 import com.orion.cafeorion.domain.dto.dish.DishDto;
+import com.orion.cafeorion.domain.dto.dish.DishUpdateDto;
 import com.orion.cafeorion.domain.entity.Dish;
 import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.domain.mapper.DishMapper;
@@ -41,13 +42,22 @@ public class DishController {
 
     @PostMapping()
     public DishDto addNewDish(@PathVariable("subcategory-id") int subcategory_id
-        , DishCreateDto dishCreateDto) {
+        , @RequestBody DishCreateDto dishCreateDto) {
         Subcategory subcategory = subcategoryService.findSubcategoryById(subcategory_id);
         Dish dish = dishMapper.fromCreateDto(dishCreateDto);
         subcategory.addNewDishToList(dish);
 //        subcategoryService.saveSubcategory(subcategory);
         dishService.saveDish(dish);
         return dishMapper.toDto(dish);
+    }
+
+    @PatchMapping("/{dish-id}")
+    public DishDto updateDish(@PathVariable("dish-id") int dish_id
+            , @RequestBody DishUpdateDto dishUpdateDto) {
+        Subcategory subcategory = subcategoryService.findSubcategoryById(dishUpdateDto.getSubcategoryId());
+        Dish updateSource = dishMapper.fromUpdateDto(dishUpdateDto);
+        Dish result = dishService.update(dish_id, subcategory, updateSource);
+        return dishMapper.toDto(result);
     }
 
     @DeleteMapping("/{dish-id}")
