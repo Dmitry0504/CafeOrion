@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "categories/{id}/subcategories/{subcategory-id}/dishes")
+@RequestMapping(path = "api/categories/{id}/subcategories/{subcategory-id}/dishes")
 public class DishController {
 
     private final DishMapper dishMapper;

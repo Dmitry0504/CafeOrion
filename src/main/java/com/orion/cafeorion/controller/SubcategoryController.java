@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "categories/{id}/subcategories")
+@RequestMapping(path = "api/categories/{id}/subcategories")
 public class SubcategoryController {
 
     private final SubcategoryMapper subcategoryMapper;
