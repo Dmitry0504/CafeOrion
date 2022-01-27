@@ -4,7 +4,6 @@ Cafe automation system is designed to make things easier.
 To get started, you need to create a database. I used MySQL.
 <br />
 ## Commands for creating database tables. 
-<br />
 CREATE DATABASE `cafe`; <br />
 USE cafe; <br />
 CREATE TABLE `categories` ( <br />
