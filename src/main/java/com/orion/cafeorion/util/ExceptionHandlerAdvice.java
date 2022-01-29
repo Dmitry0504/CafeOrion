@@ -25,7 +25,7 @@ public class ExceptionHandlerAdvice {
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException .class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrorList = e.getBindingResult().getFieldErrors();
         Map<String, String> errorMessage = new HashMap<>();
