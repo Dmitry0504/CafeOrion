@@ -3,6 +3,7 @@ package com.orion.cafeorion.service.implementation;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.repository.CategoryRepository;
 import com.orion.cafeorion.service.CategoryService;
+import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +17,20 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
     @Override
-    @Transactional
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
 
     @Override
-    @Transactional
     public Category findCategoryById(int id) {
-        return categoryRepository.findById(id).orElseThrow();
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Category", id));
     }
 
     @Override

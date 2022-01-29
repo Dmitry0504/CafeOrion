@@ -4,6 +4,7 @@ import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.repository.SubcategoryRepository;
 import com.orion.cafeorion.service.SubcategoryService;
+import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,20 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class SubcategoryServiceImpl implements SubcategoryService {
 
     private final SubcategoryRepository subcategoryRepository;
 
     @Override
-    @Transactional
     public List<Subcategory> findAllSubcategories() {
         return subcategoryRepository.findAll();
     }
 
     @Override
-    @Transactional
     public Subcategory findSubcategoryById(int id) {
-        return subcategoryRepository.findById(id).orElseThrow();
+        return subcategoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Subcategory", id));
     }
 
     @Override
@@ -47,7 +48,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    @Transactional
     public List<Subcategory> findSubcategoryByCategory_Id(int category_id) {
         return subcategoryRepository.findSubcategoryByCategory_Id(category_id);
     }
