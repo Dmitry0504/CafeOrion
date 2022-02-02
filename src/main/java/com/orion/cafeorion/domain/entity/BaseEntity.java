@@ -19,7 +19,7 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
