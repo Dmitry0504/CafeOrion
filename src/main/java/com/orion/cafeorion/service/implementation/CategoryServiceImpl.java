@@ -40,6 +40,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category update(int id, Category category) {
+        Category categoryToUpdate = findCategoryById(id);
+        categoryToUpdate.setTitle(category.getTitle());
+        saveCategory(categoryToUpdate);
+        return categoryToUpdate;
+    }
+
+    @Override
     @Transactional
     public void deleteCategoryById(int id) {
         categoryRepository.deleteById(id);

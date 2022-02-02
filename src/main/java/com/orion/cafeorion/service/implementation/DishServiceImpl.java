@@ -4,6 +4,7 @@ import com.orion.cafeorion.domain.entity.Dish;
 import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.repository.DishRepository;
 import com.orion.cafeorion.service.DishService;
+import com.orion.cafeorion.service.SubcategoryService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ import java.util.List;
 public class DishServiceImpl implements DishService {
 
     private final DishRepository dishRepository;
+    private final SubcategoryService subcategoryService;
 
     @Override
-    public List<Dish> findDishesBySubcategory_Id(int subcategoryId) {
-        return dishRepository.findDishesBySubcategory_Id(subcategoryId);
+    public List<Dish> findDishesBySubcategoryId(int subcategoryId) {
+        return dishRepository.findDishesBySubcategoryId(subcategoryId);
     }
 
     @Override
@@ -36,6 +38,14 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public void saveDish(Dish dish) {
         dishRepository.save(dish);
+    }
+
+    @Override
+    public Dish createDish(int subcategoryId, Dish dish) {
+        Subcategory subcategory = subcategoryService.findSubcategoryById(subcategoryId);
+        subcategory.addNewDishToList(dish);
+        saveDish(dish);
+        return dish;
     }
 
     @Override

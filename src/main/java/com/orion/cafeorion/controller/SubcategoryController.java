@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,76 +50,74 @@ public class SubcategoryController {
     @Operation(description = "Find all subcategories")
     @ApiResponse(responseCode = "200", description = "Subcategories were found")
     @ApiResponse(responseCode = "500", description = "Subcategories not found")
-    public List<SubcategoryDto> getSubcategoriesFromCategory(@PathVariable int id) {
-        return subcategoryService.findSubcategoryByCategory_Id(id)
+    public Page<SubcategoryDto> getSubcategoriesFromCategory(@PathVariable int id) {
+        List<SubcategoryDto> subcategoryDtoList = subcategoryService.findSubcategoryByCategoryId(id)
                 .stream()
                 .map(subcategoryMapper::toDto)
                 .collect(Collectors.toList());
+        return new PageImpl<>(subcategoryDtoList);
     }
 
     /**
      * Return Subcategory on JSON format
      *
-     * @param subcategory_id is a subcategory id
+     * @param subcategoryId is a subcategory id
      * @return subcategoryFullDto on JSON format
      */
     @Operation(description = "Find subcategory by id")
     @ApiResponse(responseCode = "200", description = "Subcategory was found")
     @ApiResponse(responseCode = "500", description = "Subcategory not found")
     @GetMapping("/{subcategory-id}")
-    public SubcategoryFullDto getSubcategoryById(@PathVariable("subcategory-id") int subcategory_id) {
-        return subcategoryMapper.toFullDto(subcategoryService.findSubcategoryById(subcategory_id));
+    public SubcategoryFullDto getSubcategoryById(@PathVariable("subcategory-id") int subcategoryId) {
+        return subcategoryMapper.toFullDto(subcategoryService.findSubcategoryById(subcategoryId));
     }
 
     /**
      * Create a new subcategory
      *
-     * @param id is category id which subcategory belongs
+     * @param id                   is category id which subcategory belongs
      * @param subcategoryCreateDto is a subcategory on JSON format
      * @return subcategoryDto on JSON format
      */
     @Operation(description = "Create subcategory")
     @ApiResponse(responseCode = "200", description = "Subcategory was created")
     @PostMapping()
-    public SubcategoryDto crateNewSubcategory(@PathVariable int id
-            , @Valid @RequestBody SubcategoryCreateDto subcategoryCreateDto) {
-        Category category = categoryService.findCategoryById(id);
+    public SubcategoryDto crateNewSubcategory(@PathVariable int id,
+                                              @Valid @RequestBody SubcategoryCreateDto subcategoryCreateDto) {
         Subcategory subcategory = subcategoryMapper.fromCreateDto(subcategoryCreateDto);
-        category.addNewSubcategoryToList(subcategory);
-        categoryService.saveCategory(category);
-        return subcategoryMapper.toDto(subcategory);
+        return subcategoryMapper.toDto(subcategoryService.create(id, subcategory));
     }
 
     /**
      * Change subcategory by id
      *
-     * @param subcategory_id is subcategory id to update
+     * @param subcategoryId        is subcategory id to update
      * @param subcategoryUpdateDto is a subcategory on JSON format
      * @return subCategoryDto on JSON format
      */
     @Operation(description = "Update subcategory")
     @ApiResponse(responseCode = "200", description = "Subcategory was updated")
     @PatchMapping("/{subcategory-id}")
-    public SubcategoryDto updateSubcategory(@PathVariable("subcategory-id") int subcategory_id
-            , @Valid @RequestBody SubcategoryUpdateDto subcategoryUpdateDto) {
+    public SubcategoryDto updateSubcategory(@PathVariable("subcategory-id") int subcategoryId,
+                                            @Valid @RequestBody SubcategoryUpdateDto subcategoryUpdateDto) {
 
         Subcategory subcategoryUpdate = subcategoryMapper.fromUpdateDto(subcategoryUpdateDto);
         int categoryId = subcategoryUpdateDto.getCategoryId();
         Category category = categoryService.findCategoryById(categoryId);
 
-        return Optional.of(subcategoryMapper.toDto(subcategoryService.update(subcategory_id, category, subcategoryUpdate))).orElseThrow();
+        return Optional.of(subcategoryMapper.toDto(subcategoryService.update(subcategoryId, category, subcategoryUpdate))).orElseThrow();
     }
 
     /**
      * Delete subcategory by id
      *
-     * @param subcategory_id is a subcategory id that need to delete
+     * @param subcategoryId is a subcategory id that need to delete
      */
     @Operation(description = "Delete subcategory by id")
     @ApiResponse(responseCode = "200", description = "Subcategory was deleted")
     @DeleteMapping("/{subcategory-id}")
-    public void deleteSubcategoryById(@PathVariable("subcategory-id") int subcategory_id) {
-        subcategoryService.deleteSubcategoryById(subcategory_id);
+    public void deleteSubcategoryById(@PathVariable("subcategory-id") int subcategoryId) {
+        subcategoryService.deleteSubcategoryById(subcategoryId);
     }
 
 }

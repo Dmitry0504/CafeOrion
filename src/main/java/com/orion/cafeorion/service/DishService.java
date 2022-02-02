@@ -11,11 +11,13 @@ import java.util.List;
  */
 public interface DishService {
 
-    List<Dish> findDishesBySubcategory_Id(int subcategoryId);
+    List<Dish> findDishesBySubcategoryId(int subcategoryId);
 
     Dish findDishById(int dishId);
 
     void saveDish(Dish dish);
+
+    Dish createDish(int subcategoryId, Dish dish);
 
     void deleteDishById(int dishId);
 

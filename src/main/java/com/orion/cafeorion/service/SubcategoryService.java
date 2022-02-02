@@ -19,9 +19,11 @@ public interface SubcategoryService {
 
     void saveSubcategory(Subcategory subcategory);
 
+    Subcategory create(int categoryId, Subcategory subcategory);
+
     void deleteSubcategoryById(int id);
 
-    List<Subcategory> findSubcategoryByCategory_Id(int category_id);
+    List<Subcategory> findSubcategoryByCategoryId(int categoryId);
 
     Subcategory update(int targetId, Category category, Subcategory source);
 

@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,17 +36,18 @@ public class CategoryController {
     private final CategoryMapper categoryMapper;
 
     /**
-     * @return List<CategoryDto> on JSON format
+     * @return Page<CategoryDto> on JSON format
      */
     @Operation(description = "Find all categories")
     @ApiResponse(responseCode = "200", description = "Categories were found")
     @ApiResponse(responseCode = "500", description = "Categories not found")
     @GetMapping()
-    public List<CategoryDto> getAllCategories() {
-        return categoryService.findAllCategories()
+    public Page<CategoryDto> getAllCategories() {
+        List<CategoryDto> categoryDtoList = categoryService.findAllCategories()
                 .stream()
                 .map(categoryMapper::toDto)
                 .collect(Collectors.toList());
+        return new PageImpl<>(categoryDtoList);
     }
 
     /**
@@ -85,16 +88,10 @@ public class CategoryController {
     @Operation(description = "Update category")
     @ApiResponse(responseCode = "200", description = "Category was updated")
     @PatchMapping("/{id}")
-    public CategoryDto updateCategory(@PathVariable int id
-            , @Valid @RequestBody CategoryUpdateDto categoryUpdateDto) {
+    public CategoryDto updateCategory(@PathVariable int id,
+                                      @Valid @RequestBody CategoryUpdateDto categoryUpdateDto) {
         Category category = categoryMapper.fromUpdateDto(categoryUpdateDto);
-
-        Category categoryToUpdate = categoryService.findCategoryById(id);
-        categoryToUpdate.setTitle(category.getTitle());
-
-        categoryService.saveCategory(categoryToUpdate);
-
-        return categoryMapper.toDto(categoryToUpdate);
+        return categoryMapper.toDto(categoryService.update(id, category));
     }
 
     /**

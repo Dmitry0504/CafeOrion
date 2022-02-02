@@ -3,10 +3,10 @@ package com.orion.cafeorion.service.implementation;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.repository.SubcategoryRepository;
+import com.orion.cafeorion.service.CategoryService;
 import com.orion.cafeorion.service.SubcategoryService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +23,7 @@ import java.util.List;
 public class SubcategoryServiceImpl implements SubcategoryService {
 
     private final SubcategoryRepository subcategoryRepository;
+    private final CategoryService categoryService;
 
     @Override
     public List<Subcategory> findAllSubcategories() {
@@ -43,13 +44,22 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     @Override
     @Transactional
+    public Subcategory create(int categoryId, Subcategory subcategory) {
+        Category category = categoryService.findCategoryById(categoryId);
+        category.addNewSubcategoryToList(subcategory);
+        saveSubcategory(subcategory);
+        return subcategory;
+    }
+
+    @Override
+    @Transactional
     public void deleteSubcategoryById(int id) {
         subcategoryRepository.deleteById(id);
     }
 
     @Override
-    public List<Subcategory> findSubcategoryByCategory_Id(int category_id) {
-        return subcategoryRepository.findSubcategoryByCategory_Id(category_id);
+    public List<Subcategory> findSubcategoryByCategoryId(int categoryId) {
+        return subcategoryRepository.findSubcategoryByCategoryId(categoryId);
     }
 
     @Override
@@ -58,7 +68,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Subcategory target = findSubcategoryById(targetId);
         target.setTitle(source.getTitle());
         target.setCategory(category);
-        this.saveSubcategory(target);
+        saveSubcategory(target);
         return target;
     }
 }

@@ -14,12 +14,8 @@ import java.math.BigDecimal;
 @Table(name = "dishes")
 @Getter
 @Setter
-public class Dish {
+public class Dish extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
     @Column(name = "title")
     private String title;
     @Column(name = "price")

@@ -17,12 +17,8 @@ import java.util.List;
 @Table(name = "subcategories")
 @Getter
 @Setter
-public class Subcategory {
+public class Subcategory extends BaseEntity{
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     @Column(name = "title")
     private String title;
 
@@ -32,8 +28,8 @@ public class Subcategory {
     private Category category;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH}
-            , mappedBy = "subcategory", fetch = FetchType.EAGER)
+            CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "subcategory", fetch = FetchType.EAGER)
     private List<Dish> dishList;
 
 
@@ -45,11 +41,4 @@ public class Subcategory {
         dish.setSubcategory(this);
     }
 
-    @Override
-    public String toString() {
-        return "Subcategory{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }

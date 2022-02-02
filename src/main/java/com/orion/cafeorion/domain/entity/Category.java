@@ -18,18 +18,14 @@ import java.util.List;
 @Table(name = "categories")
 @Getter
 @Setter
-public class Category {
+public class Category extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
     @Column(name = "title")
     private String title;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH}
-            , mappedBy = "category", fetch = FetchType.EAGER)
+            CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "category", fetch = FetchType.EAGER)
     private List<Subcategory> subcategoryList;
 
     public void addNewSubcategoryToList(Subcategory subcategory) {
@@ -40,11 +36,4 @@ public class Category {
         subcategory.setCategory(this);
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }
