@@ -22,7 +22,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Response> handleNotFoundException(NotFoundException e) {
-        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -32,6 +32,6 @@ public class ExceptionHandlerAdvice {
         for(FieldError f: fieldErrorList) {
             errorMessage.put(f.getField(), f.getDefaultMessage());
         }
-        return new ResponseEntity<>(new Response(errorMessage.toString()), HttpStatus.OK);
+        return new ResponseEntity<>(new Response(errorMessage.toString()), HttpStatus.BAD_REQUEST);
     }
 }

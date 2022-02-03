@@ -1,7 +1,6 @@
 package com.orion.cafeorion.service;
 
 
-import com.orion.cafeorion.domain.dto.subcategory.SubcategoryUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
 

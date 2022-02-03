@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Dmitriy
@@ -24,9 +25,12 @@ public class User extends BaseEntity {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     Role role;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Order> orderList;
 
-    
-    enum Role {
+    public enum Role {
         ROLE_USER,
         ROLE_WAITER,
         ROLE_COOK,

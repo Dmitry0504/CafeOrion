@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import java.math.BigDecimal;
-
 /**
  * @author Dmitriy
  * @since 26.01.2022
@@ -18,7 +16,7 @@ import java.math.BigDecimal;
 @Builder
 @Jacksonized
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Schema(name = "Dish Dto", description = "Dish dto for presentation")
+@Schema(name = "Dish Dto", description = "Dish used dto for presentation")
 public class DishDto {
     @Schema(description = "Dish id", example = "1")
     int id;
