@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/users")
-@Tag(name = "Category controller", description = "designed to work with users")
+@Tag(name = "User controller", description = "designed to work with users")
 @ApiResponse(responseCode = "500", description = "Internal error")
 @ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "Category not found")
+@ApiResponse(responseCode = "404", description = "User not found")
 public class UserController {
 
     private final UserService userService;
@@ -68,7 +68,7 @@ public class UserController {
     /**
      * Add new user
      *
-     * @param userCreateDto is a category on JSON format
+     * @param userCreateDto is a user on JSON format
      * @return user on JSON format
      */
     @Operation(description = "Create user")

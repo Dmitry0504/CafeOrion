@@ -28,7 +28,7 @@ public class Order extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     Status status;
 
-    enum Status {
+    public enum Status {
         CREATED,
         PREPARING,
         READY,
