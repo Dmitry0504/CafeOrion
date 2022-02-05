@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+import java.sql.Timestamp;
+
 /**
  * @author Dmitriy
  * @since 04.02.2022
@@ -22,6 +24,6 @@ public class OrderDto {
     int id;
     DishDto dishDto;
     UserDto userDto;
-    String orderTime;
+    Timestamp orderTime;
     String status;
 }

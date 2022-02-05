@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * @author Dmitriy
@@ -23,7 +24,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     User user;
     @Column(name = "order_time")
-    String orderTime;
+    Timestamp orderTime;
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     Status status;

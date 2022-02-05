@@ -38,10 +38,10 @@ public class DishController {
     private final SubcategoryService subcategoryService;
 
     /**
-     * Return List<DishDto> from this subcategory on JSON format
+     * Return Page<DishDto> from this subcategory on JSON format
      *
      * @param subcategoryId is id subcategory for search dishes
-     * @return List<DishDto> from this subcategory on JSON format
+     * @return Page<DishDto> from this subcategory on JSON format
      */
     @Operation(description = "Find all dishes from subcategory")
     @ApiResponse(responseCode = "200", description = "Dishes were found")
@@ -70,7 +70,7 @@ public class DishController {
     }
 
     /**
-     * Create a new subcategory
+     * Create a new dish
      *
      * @param subcategoryId is id subcategory which dish belongs
      * @param dishCreateDto is a dish on JSON format
@@ -90,10 +90,10 @@ public class DishController {
      *
      * @param dishId is dish id to update
      * @param dishUpdateDto is a dish on JSON format
-     * @return subCategoryDto on JSON format
+     * @return dishDto on JSON format
      */
     @Operation(description = "Update dish")
-    @ApiResponse(responseCode = "200", description = "Subcategory was updated")
+    @ApiResponse(responseCode = "200", description = "Dish was updated")
     @PatchMapping("/{dish-id}")
     public DishDto updateDish(@PathVariable("dish-id") int dishId,
                               @Valid @RequestBody DishUpdateDto dishUpdateDto) {
@@ -108,8 +108,8 @@ public class DishController {
      *
      * @param dishId is a dish id that need to delete
      */
-    @Operation(description = "Delete subcategory by id")
-    @ApiResponse(responseCode = "200", description = "Subcategory was deleted")
+    @Operation(description = "Delete dish by id")
+    @ApiResponse(responseCode = "200", description = "Dish was deleted")
     @DeleteMapping("/{dish-id}")
     public void deleteDishById(@PathVariable("dish-id") int dishId){
         dishService.deleteDishById(dishId);

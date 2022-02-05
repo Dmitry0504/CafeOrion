@@ -4,6 +4,7 @@ import com.orion.cafeorion.domain.dto.category.CategoryCreateDto;
 import com.orion.cafeorion.domain.dto.category.CategoryDto;
 import com.orion.cafeorion.domain.dto.user.UserCreateDto;
 import com.orion.cafeorion.domain.dto.user.UserDto;
+import com.orion.cafeorion.domain.dto.user.UserUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.User;
 import com.orion.cafeorion.domain.mapper.UserMapper;
@@ -78,6 +79,33 @@ public class UserController {
         User user = userMapper.fromCreateDto(userCreateDto);
         userService.createUser(user);
         return userMapper.toDto(user);
+    }
+
+    /**
+     * Change user by username
+     *
+     * @param username user to update
+     * @param userUpdateDto is a user on JSON format
+     * @return userDto on JSON format
+     */
+    @Operation(description = "Update user")
+    @ApiResponse(responseCode = "200", description = "User was updated")
+    @PatchMapping("/{username}")
+    public UserDto updateUser(@PathVariable String username, @RequestBody UserUpdateDto userUpdateDto) {
+        User user = userMapper.fromUpdateDto(userUpdateDto);
+        return userMapper.toDto(userService.updateUser(username, user));
+    }
+
+    /**
+     * Delete user by username
+     *
+     * @param username that need to delete
+     */
+    @Operation(description = "Delete user by username")
+    @ApiResponse(responseCode = "200", description = "User was deleted")
+    @DeleteMapping("/{username}")
+    public void deleteUserByUsername(@PathVariable String username){
+        userService.deleteUserByUserName(username);
     }
 
 }

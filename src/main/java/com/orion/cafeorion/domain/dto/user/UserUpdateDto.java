@@ -9,14 +9,14 @@ import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author Dmitriy
- * @since 04.02.2022
+ * @since 05.02.2022
  */
 @Value
 @Builder
 @Jacksonized
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Schema(name = "UserCreateDto", description = "UserCreateDto used for create new user")
-public class UserCreateDto {
+@Schema(name = "UserUpdateDto", description = "This dto used for update users")
+public class UserUpdateDto {
     String username;
     String password;
     int enabled;

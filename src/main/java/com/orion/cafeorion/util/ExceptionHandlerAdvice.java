@@ -2,6 +2,7 @@ package com.orion.cafeorion.util;
 
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import com.orion.cafeorion.util.exсeption.Response;
+import com.orion.cafeorion.util.exсeption.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -23,6 +24,11 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Response> handleNotFoundException(NotFoundException e) {
         return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<Response> handleUserAlreadyExistException(UserAlreadyExistException e) {
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

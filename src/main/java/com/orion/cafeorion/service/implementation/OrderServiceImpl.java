@@ -10,6 +10,8 @@ import com.orion.cafeorion.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDish(dish);
         order.setUser(user);
         order.setStatus(Order.Status.CREATED);
-        
+        order.setOrderTime(new Timestamp(new Date().getTime()));
         return saveOrder(order);
     }
 
