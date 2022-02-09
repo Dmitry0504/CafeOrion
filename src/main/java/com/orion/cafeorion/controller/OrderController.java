@@ -1,18 +1,29 @@
 package com.orion.cafeorion.controller;
 
+import com.orion.cafeorion.domain.dto.dish.DishDto;
+import com.orion.cafeorion.domain.dto.dish.DishUpdateDto;
 import com.orion.cafeorion.domain.dto.order.OrderCreateDto;
 import com.orion.cafeorion.domain.dto.order.OrderDto;
+import com.orion.cafeorion.domain.dto.order.OrderUpdateDto;
+import com.orion.cafeorion.domain.entity.Dish;
 import com.orion.cafeorion.domain.entity.Order;
+import com.orion.cafeorion.domain.entity.Subcategory;
+import com.orion.cafeorion.domain.entity.User;
 import com.orion.cafeorion.domain.mapper.OrderMapper;
 import com.orion.cafeorion.service.OrderService;
+import com.orion.cafeorion.service.UserService;
+import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,12 +44,26 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     /**
+     * Return order on JSON format
+     *
+     * @param orderId is a dish id
+     * @return orderDto on JSON format
+     */
+    @Operation(description = "Find order by id")
+    @ApiResponse(responseCode = "200", description = "Order was found")
+    @ApiResponse(responseCode = "500", description = "Order not found")
+    @GetMapping("/{orderId}")
+    public OrderDto getOrderById(@PathVariable int orderId) {
+        return orderMapper.toDto(orderService.findOrderById(orderId));
+    }
+
+    /**
      * @return Page<OrderDto> on JSON format
      */
     @Operation(description = "Find all orders")
-    @ApiResponse(responseCode = "200", description = "Order were found")
-    @ApiResponse(responseCode = "500", description = "Order not found")
-    @GetMapping()
+    @ApiResponse(responseCode = "200", description = "Orders were found")
+    @ApiResponse(responseCode = "500", description = "Orders not found")
+    @GetMapping("")
     public Page<OrderDto> getAllOrders() {
         List<OrderDto> orderDtoList = orderService.findAllOrders()
                 .stream()
@@ -61,5 +86,35 @@ public class OrderController {
         return orderMapper.toDto(orderService.createOrder(orderCreateDto.getDishId(), order));
     }
 
+    /**
+     * Change order by id
+     *
+     * @param orderId is order id to update
+     * @param orderUpdateDto is a order on JSON format
+     * @return dishDto on JSON format
+     */
+    @Operation(description = "Update order")
+    @ApiResponse(responseCode = "200", description = "Order was updated")
+    @PatchMapping("/{orderId}")
+    public OrderDto updateOrder(@PathVariable int orderId,
+                                @RequestBody OrderUpdateDto orderUpdateDto) {
+        Order source = orderMapper.fromUpdateDto(orderUpdateDto);
+        Order result = orderService.update(orderId, source);
+        return orderMapper.toDto(result);
+    }
+
+    /**
+     * Delete order by id
+     *
+     * @param orderId is a order id that need to delete
+     */
+    @Operation(description = "Delete order by id")
+    @ApiResponse(responseCode = "200", description = "Order was deleted")
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Response> deleteOrderById(@PathVariable int orderId){
+        orderService.deleteOrderById(orderId);
+        Response response = new Response("Order with id " + orderId + " was deleted!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 }

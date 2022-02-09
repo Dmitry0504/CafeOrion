@@ -33,6 +33,7 @@ public class Order extends BaseEntity {
         CREATED,
         PREPARING,
         READY,
-        PAID
+        PAID,
+        COMPLETED
     }
 }

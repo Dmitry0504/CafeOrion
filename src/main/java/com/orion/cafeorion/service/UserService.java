@@ -1,5 +1,6 @@
 package com.orion.cafeorion.service;
 
+import com.orion.cafeorion.domain.entity.Order;
 import com.orion.cafeorion.domain.entity.User;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface UserService {
 
     User updateUser(String targetUsername, User source);
 
-    void deleteUserByUserName(String username);
+    void deleteUserByUsername(String username);
+
+    List<Order> getOrdersByUser(String username);
 
 }

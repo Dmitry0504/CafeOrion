@@ -56,7 +56,8 @@ public class DishServiceImpl implements DishService {
 
     @Override
     @Transactional
-    public Dish update(int targetId, Subcategory subcategory, Dish source) {
+    public Dish update(int targetId, int subcategoryId, Dish source) {
+        Subcategory subcategory = subcategoryService.findSubcategoryById(subcategoryId);
         Dish target = findDishById(targetId);
         target.setTitle(source.getTitle());
         target.setPrice(source.getPrice());

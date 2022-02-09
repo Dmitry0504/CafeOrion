@@ -7,6 +7,7 @@ import com.orion.cafeorion.repository.OrderRepository;
 import com.orion.cafeorion.service.DishService;
 import com.orion.cafeorion.service.OrderService;
 import com.orion.cafeorion.service.UserService;
+import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,13 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
 
     @Override
-    public List<Order> findAllByUser(User user) {
+    public Order findOrderById(int id) {
+        return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order", id));
+    }
+
+    @Override
+    public List<Order> findAllByUsername(String username) {
+        User user = userService.loadUserByUsername(username);
         return orderRepository.findAllByUser(user);
     }
 
@@ -64,6 +71,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order update(int targetId, Order source) {
-        return null;
+        Order targetOrder = findOrderById(targetId);
+        targetOrder.setStatus(source.getStatus());
+        return saveOrder(targetOrder);
     }
 }

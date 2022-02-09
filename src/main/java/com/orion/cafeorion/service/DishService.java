@@ -21,5 +21,5 @@ public interface DishService {
 
     void deleteDishById(int dishId);
 
-    Dish update(int targetId, Subcategory subcategory, Dish source);
+    Dish update(int targetId, int subcategoryId, Dish source);
 }

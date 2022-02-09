@@ -1,7 +1,9 @@
 package com.orion.cafeorion.service.implementation;
 
+import com.orion.cafeorion.domain.entity.Order;
 import com.orion.cafeorion.domain.entity.User;
 import com.orion.cafeorion.repository.UserRepository;
+import com.orion.cafeorion.service.OrderService;
 import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import com.orion.cafeorion.util.exсeption.UserAlreadyExistException;
@@ -54,8 +56,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserByUserName(String username) {
+    public void deleteUserByUsername(String username) {
         userRepository.delete(loadUserByUsername(username));
+    }
+
+    @Override
+    public List<Order> getOrdersByUser(String username) {
+        User user = loadUserByUsername(username);
+        return user.getOrderList();
     }
 
     private boolean userExist(String username) {

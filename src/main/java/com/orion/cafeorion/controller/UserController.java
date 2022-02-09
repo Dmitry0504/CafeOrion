@@ -1,12 +1,11 @@
 package com.orion.cafeorion.controller;
 
-import com.orion.cafeorion.domain.dto.category.CategoryCreateDto;
-import com.orion.cafeorion.domain.dto.category.CategoryDto;
+import com.orion.cafeorion.domain.dto.order.OrderDto;
 import com.orion.cafeorion.domain.dto.user.UserCreateDto;
 import com.orion.cafeorion.domain.dto.user.UserDto;
 import com.orion.cafeorion.domain.dto.user.UserUpdateDto;
-import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.User;
+import com.orion.cafeorion.domain.mapper.OrderMapper;
 import com.orion.cafeorion.domain.mapper.UserMapper;
 import com.orion.cafeorion.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +34,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final OrderMapper orderMapper;
 
     /**
      * @return Page<UserDto> on JSON format
@@ -105,7 +104,22 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "User was deleted")
     @DeleteMapping("/{username}")
     public void deleteUserByUsername(@PathVariable String username){
-        userService.deleteUserByUserName(username);
+        userService.deleteUserByUsername(username);
+    }
+
+    /**
+     * @return Page<OrderDto> on JSON format
+     */
+    @Operation(description = "Find all orders by user")
+    @ApiResponse(responseCode = "200", description = "Orders were found")
+    @ApiResponse(responseCode = "500", description = "Orders not found")
+    @GetMapping("/{username}/orders")
+    public Page<OrderDto> getAllOrdersByUsername(@PathVariable String username) {
+        List<OrderDto> orderDtoList = userService.getOrdersByUser(username)
+                .stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(orderDtoList);
     }
 
 }

@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface OrderService {
 
-    List<Order> findAllByUser(User user);
+    Order findOrderById(int id);
+
+    List<Order> findAllByUsername(String username);
 
     List<Order> findAllByStatus(Order.Status status);
 

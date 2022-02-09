@@ -4,10 +4,8 @@ import com.orion.cafeorion.domain.dto.dish.DishCreateDto;
 import com.orion.cafeorion.domain.dto.dish.DishDto;
 import com.orion.cafeorion.domain.dto.dish.DishUpdateDto;
 import com.orion.cafeorion.domain.entity.Dish;
-import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.domain.mapper.DishMapper;
 import com.orion.cafeorion.service.DishService;
-import com.orion.cafeorion.service.SubcategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +33,6 @@ public class DishController {
 
     private final DishMapper dishMapper;
     private final DishService dishService;
-    private final SubcategoryService subcategoryService;
 
     /**
      * Return Page<DishDto> from this subcategory on JSON format
@@ -97,9 +94,9 @@ public class DishController {
     @PatchMapping("/{dish-id}")
     public DishDto updateDish(@PathVariable("dish-id") int dishId,
                               @Valid @RequestBody DishUpdateDto dishUpdateDto) {
-        Subcategory subcategory = subcategoryService.findSubcategoryById(dishUpdateDto.getSubcategoryId());
+        int subcategoryId = dishUpdateDto.getSubcategoryId();
         Dish updateSource = dishMapper.fromUpdateDto(dishUpdateDto);
-        Dish result = dishService.update(dishId, subcategory, updateSource);
+        Dish result = dishService.update(dishId, subcategoryId, updateSource);
         return dishMapper.toDto(result);
     }
 
