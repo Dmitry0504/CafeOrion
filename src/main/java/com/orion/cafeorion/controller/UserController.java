@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,7 @@ public class UserController {
     @Operation(description = "Create user")
     @ApiResponse(responseCode = "200", description = "User was created")
     @PostMapping("")
-    public UserDto createNewUser(@RequestBody UserCreateDto userCreateDto) {
+    public UserDto createNewUser(@Valid @RequestBody UserCreateDto userCreateDto) {
         User user = userMapper.fromCreateDto(userCreateDto);
         userService.createUser(user);
         return userMapper.toDto(user);
@@ -90,7 +91,7 @@ public class UserController {
     @Operation(description = "Update user")
     @ApiResponse(responseCode = "200", description = "User was updated")
     @PatchMapping("/{username}")
-    public UserDto updateUser(@PathVariable String username, @RequestBody UserUpdateDto userUpdateDto) {
+    public UserDto updateUser(@PathVariable String username, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         User user = userMapper.fromUpdateDto(userUpdateDto);
         return userMapper.toDto(userService.updateUser(username, user));
     }

@@ -81,7 +81,7 @@ public class OrderController {
     @Operation(description = "Create order")
     @ApiResponse(responseCode = "200", description = "Order was created")
     @PostMapping("")
-    public OrderDto createOrder(@RequestBody OrderCreateDto orderCreateDto) {
+    public OrderDto createOrder(@Valid @RequestBody OrderCreateDto orderCreateDto) {
         Order order = orderMapper.fromCreateDto(orderCreateDto);
         return orderMapper.toDto(orderService.createOrder(orderCreateDto.getDishId(), order));
     }
@@ -97,7 +97,7 @@ public class OrderController {
     @ApiResponse(responseCode = "200", description = "Order was updated")
     @PatchMapping("/{orderId}")
     public OrderDto updateOrder(@PathVariable int orderId,
-                                @RequestBody OrderUpdateDto orderUpdateDto) {
+                                @Valid @RequestBody OrderUpdateDto orderUpdateDto) {
         Order source = orderMapper.fromUpdateDto(orderUpdateDto);
         Order result = orderService.update(orderId, source);
         return orderMapper.toDto(result);

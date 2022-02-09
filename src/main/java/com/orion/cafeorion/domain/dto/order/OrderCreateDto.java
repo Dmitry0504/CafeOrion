@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
+import javax.validation.constraints.Positive;
+
 /**
  * @author Dmitriy
  * @since 04.02.2022
@@ -15,5 +17,6 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @Schema(name = "OrderCreateDto", description = "Used for create new order")
 public class OrderCreateDto {
+    @Positive(message = "DishId must be positive!")
     int dishId;
 }

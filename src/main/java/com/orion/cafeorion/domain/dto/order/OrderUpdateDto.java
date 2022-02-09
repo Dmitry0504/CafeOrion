@@ -1,9 +1,13 @@
 package com.orion.cafeorion.domain.dto.order;
 
-import com.orion.cafeorion.domain.entity.Order;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author Dmitriy
@@ -15,5 +19,6 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(name = "OrderUpdateDto", description = "Used for update order")
 public class OrderUpdateDto {
-    Order.Status status;
+    @NotBlank(message = "Status cannot be empty!")
+    String status;
 }
