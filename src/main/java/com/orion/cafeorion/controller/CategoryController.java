@@ -6,12 +6,15 @@ import com.orion.cafeorion.domain.dto.category.CategoryUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.mapper.CategoryMapper;
 import com.orion.cafeorion.service.CategoryService;
+import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -102,8 +105,10 @@ public class CategoryController {
     @Operation(description = "Delete category by id")
     @ApiResponse(responseCode = "200", description = "Category was deleted")
     @DeleteMapping("/{id}")
-    public void deleteCategoryById(@PathVariable int id) {
+    public ResponseEntity<Response> deleteCategoryById(@PathVariable int id) {
         categoryService.deleteCategoryById(id);
+        Response response = new Response("Category with id " + id + " was deleted!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

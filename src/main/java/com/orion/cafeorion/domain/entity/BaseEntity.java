@@ -20,6 +20,10 @@ public abstract class BaseEntity {
     @Column(name = "id")
     private int id;
 
+    @Version
+    @Column(name = "version")
+    private int version;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

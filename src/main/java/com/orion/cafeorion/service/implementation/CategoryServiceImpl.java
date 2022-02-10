@@ -40,11 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Category update(int id, Category category) {
-        Category categoryToUpdate = findCategoryById(id);
-        categoryToUpdate.setTitle(category.getTitle());
-        saveCategory(categoryToUpdate);
-        return categoryToUpdate;
+        Category target = findCategoryById(id);
+        target.setTitle(category.getTitle());
+        saveCategory(target);
+        return target;
     }
 
     @Override

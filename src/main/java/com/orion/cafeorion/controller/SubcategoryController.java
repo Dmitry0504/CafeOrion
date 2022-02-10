@@ -9,12 +9,15 @@ import com.orion.cafeorion.domain.entity.Subcategory;
 import com.orion.cafeorion.domain.mapper.SubcategoryMapper;
 import com.orion.cafeorion.service.CategoryService;
 import com.orion.cafeorion.service.SubcategoryService;
+import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,7 +50,7 @@ public class SubcategoryController {
      * @return List<SubcategoryDto> on JSON format
      */
     @GetMapping("")
-    @Operation(description = "Find all subcategories")
+    @Operation(description = "Find all subcategories  from category")
     @ApiResponse(responseCode = "200", description = "Subcategories were found")
     @ApiResponse(responseCode = "500", description = "Subcategories not found")
     public Page<SubcategoryDto> getSubcategoriesFromCategory(@PathVariable int id) {
@@ -116,8 +119,10 @@ public class SubcategoryController {
     @Operation(description = "Delete subcategory by id")
     @ApiResponse(responseCode = "200", description = "Subcategory was deleted")
     @DeleteMapping("/{subcategory-id}")
-    public void deleteSubcategoryById(@PathVariable("subcategory-id") int subcategoryId) {
+    public ResponseEntity<Response> deleteSubcategoryById(@PathVariable("subcategory-id") int subcategoryId) {
         subcategoryService.deleteSubcategoryById(subcategoryId);
+        Response response = new Response("Subcategory with id " + subcategoryId + " was deleted!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

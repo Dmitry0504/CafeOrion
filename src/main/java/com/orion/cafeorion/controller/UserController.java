@@ -8,12 +8,15 @@ import com.orion.cafeorion.domain.entity.User;
 import com.orion.cafeorion.domain.mapper.OrderMapper;
 import com.orion.cafeorion.domain.mapper.UserMapper;
 import com.orion.cafeorion.service.UserService;
+import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -104,8 +107,10 @@ public class UserController {
     @Operation(description = "Delete user by username")
     @ApiResponse(responseCode = "200", description = "User was deleted")
     @DeleteMapping("/{username}")
-    public void deleteUserByUsername(@PathVariable String username){
+    public ResponseEntity<Response> deleteUserByUsername(@PathVariable String username){
         userService.deleteUserByUsername(username);
+        Response response = new Response("User with username " + username + " was deleted!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
