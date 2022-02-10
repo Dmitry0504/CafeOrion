@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/subcategories/{subcategory-id}/dishes")
+@RequestMapping(path = "/subcategories/{subcategory-id}/dishes")
 @Tag(name = "Dish controller", description = "designed to work with dishes")
 @ApiResponse(responseCode = "500", description = "Internal error")
 @ApiResponse(responseCode = "400", description = "Validation failed")

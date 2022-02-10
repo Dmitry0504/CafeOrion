@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/users")
+@RequestMapping(path = "/users")
 @Tag(name = "User controller", description = "designed to work with users")
 @ApiResponse(responseCode = "500", description = "Internal error")
 @ApiResponse(responseCode = "400", description = "Validation failed")

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/orders")
+@RequestMapping(path = "/orders")
 @Tag(name = "Order controller", description = "designed to work with orders")
 @ApiResponse(responseCode = "500", description = "Internal error")
 @ApiResponse(responseCode = "400", description = "Validation failed")
