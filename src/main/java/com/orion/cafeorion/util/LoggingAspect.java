@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -21,8 +23,9 @@ public class LoggingAspect {
 
     @Around("execution(* com.orion.cafeorion.controller..*(..))")
     public Object aroundAllControllersMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-
-        logger.info(String.format("Entered {%s.%s}, with arguments: {%s}",
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info(String.format("%s. Entered {%s.%s}, with arguments: {%s}",
+                authentication.getPrincipal(),
                 proceedingJoinPoint.getSignature().getDeclaringTypeName(),
                 proceedingJoinPoint.getSignature().getName(),
                 Arrays.toString(proceedingJoinPoint.getArgs())));

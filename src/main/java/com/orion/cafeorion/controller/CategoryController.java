@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +46,7 @@ public class CategoryController {
     @ApiResponse(responseCode = "200", description = "Categories were found")
     @ApiResponse(responseCode = "500", description = "Categories not found")
     @GetMapping()
+    @RolesAllowed("ADMIN")
     public Page<CategoryDto> getAllCategories() {
         List<CategoryDto> categoryDtoList = categoryService.findAllCategories()
                 .stream()

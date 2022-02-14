@@ -2,8 +2,12 @@ package com.orion.cafeorion.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +18,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "username")
     String username;
@@ -30,10 +34,36 @@ public class User extends BaseEntity {
             mappedBy = "user", fetch = FetchType.EAGER)
     private List<Order> orderList;
 
-    public enum Role {
-        ROLE_USER,
-        ROLE_WAITER,
-        ROLE_COOK,
-        ROLE_ADMIN
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return enabled == 1;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled == 1;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return enabled == 1;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled == 1;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

@@ -8,6 +8,8 @@ import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import com.orion.cafeorion.util.exсeption.UserAlreadyExistException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +21,10 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAllUsers() {

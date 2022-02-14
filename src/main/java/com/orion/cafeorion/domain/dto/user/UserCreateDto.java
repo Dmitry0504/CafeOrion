@@ -1,5 +1,7 @@
 package com.orion.cafeorion.domain.dto.user;
 
+import com.orion.cafeorion.domain.entity.Role;
+import com.orion.cafeorion.domain.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,5 +31,5 @@ public class UserCreateDto {
     @Max(value = 1)
     int enabled;
     @NotBlank(message = "Role cannot be empty!")
-    String role;
+    Role role;
 }
