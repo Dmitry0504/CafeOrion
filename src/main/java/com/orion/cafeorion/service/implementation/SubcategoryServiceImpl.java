@@ -7,6 +7,7 @@ import com.orion.cafeorion.service.CategoryService;
 import com.orion.cafeorion.service.SubcategoryService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,12 +37,14 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 .orElseThrow(() -> new NotFoundException("Subcategory", id));
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public void saveSubcategory(Subcategory subcategory) {
         subcategoryRepository.save(subcategory);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public Subcategory create(int categoryId, Subcategory subcategory) {
@@ -51,6 +54,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return subcategory;
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public void deleteSubcategoryById(int id) {
@@ -62,6 +66,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         return subcategoryRepository.findSubcategoryByCategoryId(categoryId);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public Subcategory update(int targetId, Category category, Subcategory source) {

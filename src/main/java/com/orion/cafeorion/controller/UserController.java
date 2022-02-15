@@ -43,9 +43,9 @@ public class UserController {
     /**
      * @return Page<UserDto> on JSON format
      */
-    @Operation(description = "Find all categories")
-    @ApiResponse(responseCode = "200", description = "Categories were found")
-    @ApiResponse(responseCode = "500", description = "Categories not found")
+    @Operation(description = "Find all users")
+    @ApiResponse(responseCode = "200", description = "Users were found")
+    @ApiResponse(responseCode = "500", description = "Users not found")
     @GetMapping()
     public Page<UserDto> getAllUsers() {
         List<UserDto> userDtoList = userService.findAllUsers()

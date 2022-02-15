@@ -13,8 +13,6 @@ public interface OrderService {
 
     Order findOrderById(int id);
 
-    List<Order> findAllByUsername(String username);
-
     List<Order> findAllByStatus(Order.Status status);
 
     List<Order> findAllOrders();

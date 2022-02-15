@@ -5,6 +5,7 @@ import com.orion.cafeorion.repository.CategoryRepository;
 import com.orion.cafeorion.service.CategoryService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,28 +18,31 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Category findCategoryById(int id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category", id));
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public void saveCategory(Category category) {
         categoryRepository.save(category);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public Category update(int id, Category category) {
@@ -48,6 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         return target;
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public void deleteCategoryById(int id) {

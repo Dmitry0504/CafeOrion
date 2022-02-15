@@ -9,7 +9,9 @@ import com.orion.cafeorion.service.OrderService;
 import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -21,39 +23,40 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final DishService dishService;
     private final UserService userService;
 
+    @Secured({ "ROLE_ADMIN", "ROLE_WAITER" })
     @Override
     public Order findOrderById(int id) {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order", id));
     }
 
-    @Override
-    public List<Order> findAllByUsername(String username) {
-        User user = userService.loadUserByUsername(username);
-        return orderRepository.findAllByUser(user);
-    }
-
+    @Secured({ "ROLE_ADMIN", "ROLE_WAITER", "ROLE_COOK" })
     @Override
     public List<Order> findAllByStatus(Order.Status status) {
         return orderRepository.findAllByStatus(status);
     }
 
+    @Secured({ "ROLE_ADMIN", "ROLE_WAITER", "ROLE_COOK" })
     @Override
     public List<Order> findAllOrders() {
         return orderRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }
 
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Override
+    @Transactional
     public Order createOrder(int dishId, Order order) {
         Dish dish = dishService.findDishById(dishId);
         User user = userService.loadUserByUsername("Hook");
@@ -64,12 +67,16 @@ public class OrderServiceImpl implements OrderService {
         return saveOrder(order);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
+    @Transactional
     public void deleteOrderById(int id) {
         orderRepository.deleteById(id);
     }
 
+    @Secured({ "ROLE_ADMIN", "ROLE_WAITER", "ROLE_COOK" })
     @Override
+    @Transactional
     public Order update(int targetId, Order source) {
         Order targetOrder = findOrderById(targetId);
         targetOrder.setStatus(source.getStatus());

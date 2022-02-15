@@ -1,7 +1,6 @@
 package com.orion.cafeorion.domain.dto.category;
 
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryDto;
-import com.orion.cafeorion.domain.entity.Subcategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

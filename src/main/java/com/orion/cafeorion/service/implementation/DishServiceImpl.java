@@ -7,6 +7,7 @@ import com.orion.cafeorion.service.DishService;
 import com.orion.cafeorion.service.SubcategoryService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +36,13 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    @Transactional
     public void saveDish(Dish dish) {
         dishRepository.save(dish);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
+    @Transactional
     public Dish createDish(int subcategoryId, Dish dish) {
         Subcategory subcategory = subcategoryService.findSubcategoryById(subcategoryId);
         subcategory.addNewDishToList(dish);
@@ -48,12 +50,14 @@ public class DishServiceImpl implements DishService {
         return dish;
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public void deleteDishById(int dishId) {
         dishRepository.deleteById(dishId);
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @Override
     @Transactional
     public Dish update(int targetId, int subcategoryId, Dish source) {
