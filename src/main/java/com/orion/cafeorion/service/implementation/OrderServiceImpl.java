@@ -10,6 +10,8 @@ import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +61,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order createOrder(int dishId, Order order) {
         Dish dish = dishService.findDishById(dishId);
-        User user = userService.loadUserByUsername("Hook");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
         order.setDish(dish);
         order.setUser(user);
         order.setStatus(Order.Status.CREATED);

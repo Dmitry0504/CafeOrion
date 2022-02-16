@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public User updateUser(String targetUsername, User source) {
-        if (userExist(source.getUsername())) {
+        if (userExist(source.getUsername()) && !targetUsername.equals(source.getUsername())) {
             throw new UserAlreadyExistException(source.getUsername());
         }
         User target = loadUserByUsername(targetUsername);

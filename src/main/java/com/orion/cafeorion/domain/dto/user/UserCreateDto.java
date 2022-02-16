@@ -30,6 +30,5 @@ public class UserCreateDto {
     @Min(value = 0)
     @Max(value = 1)
     int enabled;
-    @NotBlank(message = "Role cannot be empty!")
     Role role;
 }
