@@ -21,9 +21,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(name = "OrderDto", description = "Used for presentation")
 public class OrderDto {
+    @Schema(description = "Order id", example = "1")
     int id;
     DishDto dishDto;
     UserDto userDto;
+    @Schema(description = "Order time", example = "2022-02-17T15:12:28.992Z")
     Timestamp orderTime;
+    @Schema(description = "Order status", example = "CREATED")
     String status;
 }

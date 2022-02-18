@@ -17,7 +17,10 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(name = "User Dto", description = "User dto used for presentation")
 public class UserDto {
+    @Schema(description = "Username", example = "root")
     String username;
+    @Schema(description = "Can take values 0 or 1. 0 if user is blocked", example = "1")
     int enabled;
+    @Schema(description = "User role", example = "ROLE_USER")
     String role;
 }
