@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,9 +25,15 @@ public class CategoryServiceImplTest {
 
     @InjectMocks
     private CategoryServiceImpl categoryServiceImpl;
-
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Test
+    public void testFindAllCategories() {
+        List<Category> list = new ArrayList<>();
+        Mockito.when(categoryRepository.findAll()).thenReturn(list);
+        Assertions.assertEquals(list, categoryServiceImpl.findAllCategories());
+    }
 
     @Test
     public void testCategoryNotFoundById() {
@@ -46,6 +54,34 @@ public class CategoryServiceImplTest {
         Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(testCategory));
         Category category = categoryRepository.findById(id).get();
         Assertions.assertEquals(category.getTitle(), testCategory.getTitle());
+    }
+
+    @Test
+    public void testSaveCategory() {
+        Category testCategory = new Category();
+        testCategory.setTitle("Test title");
+        categoryServiceImpl.saveCategory(testCategory);
+        Mockito.verify(categoryRepository, Mockito.times(1)).save(testCategory);
+    }
+
+    @Test
+    public void testUpdateCategory() {
+        int id = 1;
+        Category testTargetCategory = new Category();
+        testTargetCategory.setTitle("Test title");
+        Category testSourceCategory = new Category();
+        testSourceCategory.setTitle("New title");
+        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(testTargetCategory));
+        Category targetCategory = categoryRepository.findById(id).get();
+        targetCategory.setTitle(testSourceCategory.getTitle());
+        Assertions.assertEquals(targetCategory.getTitle(), testSourceCategory.getTitle());
+    }
+
+    @Test
+    public void testDeleteCategory() {
+        int id = 1;
+        categoryServiceImpl.deleteCategoryById(id);
+        Mockito.verify(categoryRepository, Mockito.times(1)).deleteById(id);
     }
 
 
