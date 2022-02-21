@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 /**
  * @author Dmitriy
  * @since 17.02.2022
@@ -31,18 +34,18 @@ public class CategoryServiceImplTest {
     @Test
     public void testFindAllCategories() {
         List<Category> list = new ArrayList<>();
-        Mockito.when(categoryRepository.findAll()).thenReturn(list);
-        Assertions.assertEquals(list, categoryServiceImpl.findAllCategories());
+        when(categoryRepository.findAll()).thenReturn(list);
+        assertEquals(list, categoryServiceImpl.findAllCategories());
     }
 
     @Test
     public void testCategoryNotFoundById() {
         int id = 1;
-        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.empty());
+        when(categoryRepository.findById(id)).thenReturn(Optional.empty());
         try {
             categoryServiceImpl.findCategoryById(id);
         } catch (RuntimeException e) {
-            Assertions.assertEquals(e.getClass(), NotFoundException.class);
+            assertEquals(e.getClass(), NotFoundException.class);
         }
     }
 
@@ -51,9 +54,9 @@ public class CategoryServiceImplTest {
         int id = 1;
         Category testCategory = new Category();
         testCategory.setTitle("Test title");
-        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(testCategory));
+        when(categoryRepository.findById(id)).thenReturn(Optional.of(testCategory));
         Category category = categoryRepository.findById(id).get();
-        Assertions.assertEquals(category.getTitle(), testCategory.getTitle());
+        assertEquals(category.getTitle(), testCategory.getTitle());
     }
 
     @Test
@@ -61,7 +64,7 @@ public class CategoryServiceImplTest {
         Category testCategory = new Category();
         testCategory.setTitle("Test title");
         categoryServiceImpl.saveCategory(testCategory);
-        Mockito.verify(categoryRepository, Mockito.times(1)).save(testCategory);
+        verify(categoryRepository, times(1)).save(testCategory);
     }
 
     @Test
@@ -71,17 +74,17 @@ public class CategoryServiceImplTest {
         testTargetCategory.setTitle("Test title");
         Category testSourceCategory = new Category();
         testSourceCategory.setTitle("New title");
-        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(testTargetCategory));
+        when(categoryRepository.findById(id)).thenReturn(Optional.of(testTargetCategory));
         Category targetCategory = categoryRepository.findById(id).get();
         targetCategory.setTitle(testSourceCategory.getTitle());
-        Assertions.assertEquals(targetCategory.getTitle(), testSourceCategory.getTitle());
+        assertEquals(targetCategory.getTitle(), testSourceCategory.getTitle());
     }
 
     @Test
     public void testDeleteCategory() {
         int id = 1;
         categoryServiceImpl.deleteCategoryById(id);
-        Mockito.verify(categoryRepository, Mockito.times(1)).deleteById(id);
+        verify(categoryRepository, times(1)).deleteById(id);
     }
 
 

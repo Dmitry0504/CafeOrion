@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 /**
  * @author Dmitriy
  * @since 20.02.2022
@@ -35,18 +38,18 @@ public class SubcategoryServiceImplTest {
     @Test
     public void testFindAllSubcategories() {
         List<Subcategory> list = new ArrayList<>();
-        Mockito.when(subcategoryRepository.findAll()).thenReturn(list);
-        Assertions.assertEquals(list, subcategoryService.findAllSubcategories());
+        when(subcategoryRepository.findAll()).thenReturn(list);
+        assertEquals(list, subcategoryService.findAllSubcategories());
     }
 
     @Test
     public void testSubcategoryNotFoundById() {
         int id = 1;
-        Mockito.when(subcategoryRepository.findById(id)).thenReturn(Optional.empty());
+        when(subcategoryRepository.findById(id)).thenReturn(Optional.empty());
         try {
             subcategoryService.findSubcategoryById(1);
         } catch (RuntimeException e) {
-            Assertions.assertEquals(e.getClass(), NotFoundException.class);
+            assertEquals(e.getClass(), NotFoundException.class);
         }
     }
 
@@ -55,9 +58,9 @@ public class SubcategoryServiceImplTest {
         int id = 1;
         Subcategory testSubcategory = new Subcategory();
         testSubcategory.setTitle("Test title");
-        Mockito.when(subcategoryRepository.findById(id)).thenReturn(Optional.of(testSubcategory));
+        when(subcategoryRepository.findById(id)).thenReturn(Optional.of(testSubcategory));
         Subcategory subcategory = subcategoryRepository.findById(id).get();
-        Assertions.assertEquals(subcategory.getTitle(), testSubcategory.getTitle());
+        assertEquals(subcategory.getTitle(), testSubcategory.getTitle());
     }
 
     @Test
@@ -65,8 +68,8 @@ public class SubcategoryServiceImplTest {
         int id = 1;
         Subcategory subcategory = new Subcategory();
         subcategory.setTitle("Test title");
-        Mockito.when(categoryService.findCategoryById(id)).thenReturn(new Category());
-        Assertions.assertEquals(subcategory.getTitle(),
+        when(categoryService.findCategoryById(id)).thenReturn(new Category());
+        assertEquals(subcategory.getTitle(),
                 subcategoryService.create(id, subcategory).getTitle());
     }
 
@@ -74,7 +77,7 @@ public class SubcategoryServiceImplTest {
     public void testDeleteSubcategory() {
         int id = 1;
         subcategoryService.deleteSubcategoryById(id);
-        Mockito.verify(subcategoryRepository, Mockito.times(1)).deleteById(id);
+        verify(subcategoryRepository, times(1)).deleteById(id);
     }
 
 }
