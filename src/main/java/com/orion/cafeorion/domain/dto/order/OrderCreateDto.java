@@ -18,5 +18,6 @@ import javax.validation.constraints.Positive;
 @Schema(name = "OrderCreateDto", description = "Used for create new order")
 public class OrderCreateDto {
     @Positive(message = "DishId must be positive!")
+    @Schema(description = "Dish id", example = "4")
     int dishId;
 }

@@ -20,5 +20,6 @@ import javax.validation.constraints.NotBlank;
 @Schema(name = "OrderUpdateDto", description = "Used for update order")
 public class OrderUpdateDto {
     @NotBlank(message = "Status cannot be empty!")
+    @Schema(description = "Order status", example = "CREATED")
     String status;
 }

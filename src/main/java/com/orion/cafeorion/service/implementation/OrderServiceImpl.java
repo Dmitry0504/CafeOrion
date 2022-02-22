@@ -6,6 +6,7 @@ import com.orion.cafeorion.domain.entity.User;
 import com.orion.cafeorion.repository.OrderRepository;
 import com.orion.cafeorion.service.DishService;
 import com.orion.cafeorion.service.OrderService;
+import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final DishService dishService;
+    private final UserService userService;
 
     @Secured({ "ROLE_ADMIN", "ROLE_WAITER" })
     @Override
@@ -61,8 +63,9 @@ public class OrderServiceImpl implements OrderService {
         Dish dish = dishService.findDishById(dishId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
+        String username = user.getUsername();
         order.setDish(dish);
-        order.setUser(user);
+        order.setUser(userService.loadUserByUsername(username));
         order.setStatus(Order.Status.CREATED);
         order.setOrderTime(new Timestamp(new Date().getTime()));
         return saveOrder(order);

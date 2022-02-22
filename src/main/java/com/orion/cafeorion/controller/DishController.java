@@ -6,12 +6,15 @@ import com.orion.cafeorion.domain.dto.dish.DishUpdateDto;
 import com.orion.cafeorion.domain.entity.Dish;
 import com.orion.cafeorion.domain.mapper.DishMapper;
 import com.orion.cafeorion.service.DishService;
+import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -108,8 +111,10 @@ public class DishController {
     @Operation(description = "Delete dish by id")
     @ApiResponse(responseCode = "200", description = "Dish was deleted")
     @DeleteMapping("/{dish-id}")
-    public void deleteDishById(@PathVariable("dish-id") int dishId){
+    public ResponseEntity<Response> deleteDishById(@PathVariable("dish-id") int dishId){
         dishService.deleteDishById(dishId);
+        Response response = new Response("Dish with id " + dishId + " was deleted!");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
