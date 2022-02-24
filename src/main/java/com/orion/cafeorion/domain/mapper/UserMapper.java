@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Mapper(imports = {List.class})
 public interface UserMapper {
-//expression = "java(List.of(userCreateDto.getRole()))
+
     UserDto toDto(User user);
 
     @Mapping(target = "id", ignore = true)

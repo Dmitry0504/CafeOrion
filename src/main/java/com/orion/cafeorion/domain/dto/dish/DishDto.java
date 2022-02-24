@@ -1,6 +1,5 @@
 package com.orion.cafeorion.domain.dto.dish;
 
-import com.orion.cafeorion.domain.dto.subcategory.SubcategoryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

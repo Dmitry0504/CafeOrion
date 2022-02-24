@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,6 +27,8 @@ public class UserServiceImplTest {
     private UserServiceImpl userService;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void testUserNotFoundByUsername() {
@@ -58,51 +61,4 @@ public class UserServiceImplTest {
         verify(userRepository, times(1)).delete(user);
     }
 
-    /*
-        @Test
-    public void testFindDishesBySubcategoryIdIsReturnedValueList() {
-        List<Dish> list = new ArrayList<>();
-        when(dishRepository.findDishesBySubcategoryId(1)).thenReturn(list);
-        assertEquals(list, dishService.findDishesBySubcategoryId(1));
-    }
-
-    @Test
-    public void testDishNotFoundById() {
-        int id = 1;
-        when(dishRepository.findById(id)).thenReturn(Optional.empty());
-        try {
-            dishService.findDishById(id);
-        } catch (RuntimeException e) {
-            assertEquals(e.getClass(), NotFoundException.class);
-        }
-    }
-
-    @Test
-    public void testCreateDishReturnedValue() {
-        Subcategory subcategory = new Subcategory();
-        subcategory.setTitle("Test subcategory");
-        Dish dish = new Dish();
-        dish.setTitle("Test dish");
-        when(subcategoryService.findSubcategoryById(1)).thenReturn(subcategory);
-        assertEquals(dish, dishService.createDish(1, dish));
-    }
-
-    @Test
-    public void testCreateDishAddedDishToDishList() {
-        Subcategory subcategory = new Subcategory();
-        subcategory.setTitle("Test subcategory");
-        Dish dish = new Dish();
-        dish.setTitle("Test dish");
-        when(subcategoryService.findSubcategoryById(1)).thenReturn(subcategory);
-        dishService.createDish(1, dish);
-        assertEquals(1, subcategory.getDishList().size());
-    }
-
-    @Test
-    public void testDeleteDishByIdTimes() {
-        int id = 1;
-        dishService.deleteDishById(id);
-        verify(dishRepository, times(1)).deleteById(id);
-    }
-     */
 }

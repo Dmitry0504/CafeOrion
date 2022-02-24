@@ -1,7 +1,6 @@
 package com.orion.cafeorion.domain.dto.user;
 
 import com.orion.cafeorion.domain.entity.Role;
-import com.orion.cafeorion.domain.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,10 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author Dmitriy

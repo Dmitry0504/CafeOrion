@@ -30,9 +30,4 @@ public interface CategoryMapper {
     @Mapping(target = "subcategoryList", ignore = true)
     Category fromUpdateDto(CategoryUpdateDto source);
 
-   // void updateModel(CategoryDto categoryDto, @MappingTarget Category category);
-
-//    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    Category merge(@MappingTarget Category target, Category source);
-
 }

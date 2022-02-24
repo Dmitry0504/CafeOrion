@@ -1,16 +1,12 @@
 package com.orion.cafeorion.domain.mapper;
 
-import com.orion.cafeorion.domain.dto.category.CategoryCreateDto;
-import com.orion.cafeorion.domain.dto.category.CategoryDto;
-import com.orion.cafeorion.domain.dto.category.CategoryUpdateDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryCreateDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryFullDto;
 import com.orion.cafeorion.domain.dto.subcategory.SubcategoryUpdateDto;
-import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.entity.Subcategory;
-import com.orion.cafeorion.service.CategoryService;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * @author Dmitriy

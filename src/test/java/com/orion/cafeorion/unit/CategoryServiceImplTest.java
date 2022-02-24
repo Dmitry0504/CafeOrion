@@ -4,12 +4,10 @@ import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.repository.CategoryRepository;
 import com.orion.cafeorion.service.implementation.CategoryServiceImpl;
 import com.orion.cafeorion.util.exсeption.NotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
