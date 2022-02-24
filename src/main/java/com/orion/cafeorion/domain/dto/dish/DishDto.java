@@ -24,6 +24,4 @@ public class DishDto {
     String title;
     @Schema(description = "Dish price in cents", example = "120")
     Integer price;
-    @Schema(description = "The subcategory to which the dish belongs")
-    SubcategoryDto subcategoryDto;
 }

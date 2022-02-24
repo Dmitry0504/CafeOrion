@@ -14,7 +14,6 @@ import org.mapstruct.Mapping;
 @Mapper(uses = {SubcategoryMapper.class})
 public interface DishMapper {
 
-    @Mapping(target = "subcategoryDto", source = "subcategory")
     DishDto toDto(Dish dish);
 
     @Mapping(target = "id", ignore = true)
