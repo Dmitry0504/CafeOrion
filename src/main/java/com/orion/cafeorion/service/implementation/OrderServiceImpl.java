@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * @author Dmitriy
@@ -67,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDish(dish);
         order.setUser(userService.loadUserByUsername(username));
         order.setStatus(Order.Status.CREATED);
-        order.setOrderTime(new Timestamp(new Date().getTime()));
+        order.setOrderTime(getCurrentTime());
         return saveOrder(order);
     }
 
@@ -85,5 +88,12 @@ public class OrderServiceImpl implements OrderService {
         Order targetOrder = findOrderById(targetId);
         targetOrder.setStatus(source.getStatus());
         return saveOrder(targetOrder);
+    }
+
+    private String getCurrentTime() {
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone(ZoneId.of("+03:00:00")));
+        return df.format(date);
     }
 }

@@ -25,8 +25,8 @@ public class OrderDto {
     int id;
     DishDto dishDto;
     UserDto userDto;
-    @Schema(description = "Order time", example = "2022-02-17T15:12:28.992Z")
-    Timestamp orderTime;
+    @Schema(description = "Order time", example = "2022-02-24 15:21:45")
+    String orderTime;
     @Schema(description = "Order status", example = "CREATED")
     String status;
 }

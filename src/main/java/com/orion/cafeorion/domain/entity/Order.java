@@ -24,7 +24,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     User user;
     @Column(name = "order_time")
-    Timestamp orderTime;
+    String orderTime;
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     Status status;
