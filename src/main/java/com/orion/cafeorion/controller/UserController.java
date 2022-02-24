@@ -10,6 +10,7 @@ import com.orion.cafeorion.domain.mapper.UserMapper;
 import com.orion.cafeorion.service.UserService;
 import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
 @Tag(name = "User controller", description = "designed to work with users")
-@ApiResponse(responseCode = "500", description = "Internal error")
-@ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "User not found")
+@ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
+@ApiResponse(responseCode = "400", description = "Validation failed", content = @Content)
+@ApiResponse(responseCode = "404", description = "User not found", content = @Content)
 public class UserController {
 
     private final UserService userService;
@@ -63,7 +64,6 @@ public class UserController {
      */
     @Operation(description = "Find user by username")
     @ApiResponse(responseCode = "200", description = "User found")
-    @ApiResponse(responseCode = "500", description = "User not found")
     @GetMapping("/{username}")
     public UserDto getUserByUsername(@PathVariable String username) {
         return userMapper.toDto(userService.loadUserByUsername(username));
@@ -118,7 +118,6 @@ public class UserController {
      */
     @Operation(description = "Find all orders by user")
     @ApiResponse(responseCode = "200", description = "Orders were found")
-    @ApiResponse(responseCode = "500", description = "Orders not found")
     @GetMapping("/{username}/orders")
     public Page<OrderDto> getAllOrdersByUsername(@PathVariable String username) {
         List<OrderDto> orderDtoList = userService.getOrdersByUser(username)

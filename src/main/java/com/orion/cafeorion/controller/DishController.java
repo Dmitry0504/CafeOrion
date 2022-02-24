@@ -8,6 +8,7 @@ import com.orion.cafeorion.domain.mapper.DishMapper;
 import com.orion.cafeorion.service.DishService;
 import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping(path = "/subcategories/{subcategory-id}/dishes")
 @Tag(name = "Dish controller", description = "designed to work with dishes")
-@ApiResponse(responseCode = "500", description = "Internal error")
-@ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "Dish not found")
+@ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
+@ApiResponse(responseCode = "400", description = "Validation failed", content = @Content)
+@ApiResponse(responseCode = "404", description = "Dish not found", content = @Content)
 public class DishController {
 
     private final DishMapper dishMapper;
@@ -45,7 +46,6 @@ public class DishController {
      */
     @Operation(description = "Find all dishes from subcategory")
     @ApiResponse(responseCode = "200", description = "Dishes were found")
-    @ApiResponse(responseCode = "500", description = "Dishes not found")
     @GetMapping()
     public Page<DishDto> getDishesFromSubcategory(@PathVariable("subcategory-id") int subcategoryId) {
         List<DishDto> dishDtoList = dishService.findDishesBySubcategoryId(subcategoryId)
@@ -63,7 +63,6 @@ public class DishController {
      */
     @Operation(description = "Find dish by id")
     @ApiResponse(responseCode = "200", description = "Dish was found")
-    @ApiResponse(responseCode = "500", description = "Dish not found")
     @GetMapping("/{dish-id}")
     public DishDto getDishById(@PathVariable("dish-id") int dishId) {
         return dishMapper.toDto(dishService.findDishById(dishId));

@@ -11,6 +11,7 @@ import com.orion.cafeorion.service.CategoryService;
 import com.orion.cafeorion.service.SubcategoryService;
 import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping(path = "/categories/{id}/subcategories")
 @Tag(name = "Subcategory controller", description = "designed to work with subcategories")
-@ApiResponse(responseCode = "500", description = "Internal error")
-@ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "Subcategory not found")
+@ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
+@ApiResponse(responseCode = "400", description = "Validation failed", content = @Content)
+@ApiResponse(responseCode = "404", description = "Subcategory not found", content = @Content)
 public class SubcategoryController {
 
     private final SubcategoryMapper subcategoryMapper;
@@ -52,7 +53,6 @@ public class SubcategoryController {
     @GetMapping("")
     @Operation(description = "Find all subcategories  from category")
     @ApiResponse(responseCode = "200", description = "Subcategories were found")
-    @ApiResponse(responseCode = "500", description = "Subcategories not found")
     public Page<SubcategoryDto> getSubcategoriesFromCategory(@PathVariable int id) {
         List<SubcategoryDto> subcategoryDtoList = subcategoryService.findSubcategoryByCategoryId(id)
                 .stream()
@@ -69,7 +69,6 @@ public class SubcategoryController {
      */
     @Operation(description = "Find subcategory by id")
     @ApiResponse(responseCode = "200", description = "Subcategory was found")
-    @ApiResponse(responseCode = "500", description = "Subcategory not found")
     @GetMapping("/{subcategory-id}")
     public SubcategoryFullDto getSubcategoryById(@PathVariable("subcategory-id") int subcategoryId) {
         return subcategoryMapper.toFullDto(subcategoryService.findSubcategoryById(subcategoryId));

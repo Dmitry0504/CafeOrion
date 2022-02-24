@@ -8,6 +8,7 @@ import com.orion.cafeorion.domain.mapper.OrderMapper;
 import com.orion.cafeorion.service.OrderService;
 import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping(path = "/orders")
 @Tag(name = "Order controller", description = "designed to work with orders")
-@ApiResponse(responseCode = "500", description = "Internal error")
-@ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "Order not found")
+@ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
+@ApiResponse(responseCode = "400", description = "Validation failed", content = @Content)
+@ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
 public class OrderController {
 
     private final OrderService orderService;
@@ -45,7 +46,6 @@ public class OrderController {
      */
     @Operation(description = "Find order by id")
     @ApiResponse(responseCode = "200", description = "Order was found")
-    @ApiResponse(responseCode = "500", description = "Order not found")
     @GetMapping("/{orderId}")
     public OrderDto getOrderById(@PathVariable int orderId) {
         return orderMapper.toDto(orderService.findOrderById(orderId));
@@ -56,7 +56,6 @@ public class OrderController {
      */
     @Operation(description = "Find all orders")
     @ApiResponse(responseCode = "200", description = "Orders were found")
-    @ApiResponse(responseCode = "500", description = "Orders not found")
     @GetMapping("")
     public Page<OrderDto> getAllOrders() {
         List<OrderDto> orderDtoList = orderService.findAllOrders()

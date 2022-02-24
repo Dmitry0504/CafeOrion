@@ -36,21 +36,19 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/categories")
 @Tag(name = "Category controller", description = "designed to work with categories")
 @ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
-@ApiResponse(responseCode = "400", description = "Validation failed",
-        content = @Content(schema = @Schema(implementation = MethodArgumentNotValidException.class)))
-@ApiResponse(responseCode = "404", description = "Category not found",
-        content = @Content(schema = @Schema(implementation = NotFoundException.class)))
+@ApiResponse(responseCode = "400", description = "Validation failed", content = @Content)
+@ApiResponse(responseCode = "404", description = "Category not found", content = @Content)
 public class CategoryController {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
     /**
+     *
      * @return Page<CategoryDto> on JSON format
      */
     @Operation(description = "Find all categories")
-    @ApiResponse(responseCode = "200", description = "Categories were found",
-            content = @Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class))))
+    @ApiResponse(responseCode = "200", description = "Categories were found")
     @GetMapping()
     public Page<CategoryDto> getAllCategories() {
         List<CategoryDto> categoryDtoList = categoryService.findAllCategories()
