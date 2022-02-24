@@ -6,8 +6,12 @@ import com.orion.cafeorion.domain.dto.category.CategoryUpdateDto;
 import com.orion.cafeorion.domain.entity.Category;
 import com.orion.cafeorion.domain.mapper.CategoryMapper;
 import com.orion.cafeorion.service.CategoryService;
+import com.orion.cafeorion.util.exсeption.NotFoundException;
 import com.orion.cafeorion.util.exсeption.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,9 +35,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping(path = "/categories")
 @Tag(name = "Category controller", description = "designed to work with categories")
-@ApiResponse(responseCode = "500", description = "Internal error")
-@ApiResponse(responseCode = "400", description = "Validation failed")
-@ApiResponse(responseCode = "404", description = "Category not found")
+@ApiResponse(responseCode = "500", description = "Internal error", content = @Content)
+@ApiResponse(responseCode = "400", description = "Validation failed",
+        content = @Content(schema = @Schema(implementation = MethodArgumentNotValidException.class)))
+@ApiResponse(responseCode = "404", description = "Category not found",
+        content = @Content(schema = @Schema(implementation = NotFoundException.class)))
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -42,8 +49,8 @@ public class CategoryController {
      * @return Page<CategoryDto> on JSON format
      */
     @Operation(description = "Find all categories")
-    @ApiResponse(responseCode = "200", description = "Categories were found")
-    @ApiResponse(responseCode = "500", description = "Categories not found")
+    @ApiResponse(responseCode = "200", description = "Categories were found",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDto.class))))
     @GetMapping()
     public Page<CategoryDto> getAllCategories() {
         List<CategoryDto> categoryDtoList = categoryService.findAllCategories()
@@ -61,7 +68,6 @@ public class CategoryController {
      */
     @Operation(description = "Find category by id")
     @ApiResponse(responseCode = "200", description = "Category found")
-    @ApiResponse(responseCode = "500", description = "Category not found")
     @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable int id) {
         return categoryMapper.toDto(categoryService.findCategoryById(id));
